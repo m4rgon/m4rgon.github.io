@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Como actualizar el Firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection :: M4rgon</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Un articulo sobre como actualizar el firmware de un smartwatch." />
+<meta name="keywords" content=", " />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://m4rgon.github.io/posts/haylousolarls05/" />
+
+
+
+
+<link rel="stylesheet" href="https://m4rgon.github.io/assets/style.css">
+
+  <link rel="stylesheet" href="https://m4rgon.github.io/assets/blue.css">
+
+
+
+
+
+
+<link rel="apple-touch-icon" href="https://m4rgon.github.io/img/apple-touch-icon-192x192.png">
+
+  <link rel="shortcut icon" href="https://m4rgon.github.io/img/favicon/blue.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="PedroAMG" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Como actualizar el Firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection">
+<meta property="og:description" content="Un articulo sobre como actualizar el firmware de un smartwatch." />
+<meta property="og:url" content="https://m4rgon.github.io/posts/haylousolarls05/" />
+<meta property="og:site_name" content="M4rgon" />
+
+  <meta property="og:image" content="https://minexo.pl/wp-content/uploads/2020/08/Haylou-Solar-4-1000.png">
+
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+
+  <meta property="article:published_time" content="2021-09-19 21:44:24 -0400 EDT" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="blue">
+
+
+<div class="container headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    M4rgon
+  </div>
+</a>
+
+    </div>
+    
+  </div>
+  
+</header>
+
+
+  <div class="content">
+    
+<div class="post">
+  <h1 class="post-title">
+    <a href="https://m4rgon.github.io/posts/haylousolarls05/">Como actualizar el Firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection</a></h1>
+  <div class="post-meta">
+    
+      <span class="post-date">
+        2021-09-19 
+      </span>
+    
+    
+    <span class="post-author">:: Pedro A Martinez</span>
+    
+  </div>
+
+  
+  <span class="post-tags">
+    
+    #<a href="https://m4rgon.github.io/tags/haylou-solar-ls05/">Haylou Solar LS05</a>&nbsp;
+    
+    #<a href="https://m4rgon.github.io/tags/firmware/">Firmware</a>&nbsp;
+    
+    #<a href="https://m4rgon.github.io/tags/update/">Update</a>&nbsp;
+    
+  </span>
+  
+
+  
+    <img src="https://minexo.pl/wp-content/uploads/2020/08/Haylou-Solar-4-1000.png" class="post-cover" alt="Como actualizar el Firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection" />
+  
+
+  
+
+  <div class="post-content"><div>
+        <p><strong>Nota:</strong> Para llevar a cabo lo visto en este artículo es necesario tener un conocimiento medio avanzado sobre informática.</p>
+<p>No es un secreto que algunos fabricantes de tecnología alrededor del mundo limitan mediante software las capacidades que tiene el hardware, muchos son los motivos detrás de esta práctica, algunos más “nobles” que otros, algunas veces solo buscando un beneficio económico obligando a sus consumidores a comprar la nueva versión de “x” producto para poder satisfacer sus necesidades, lo cierto es que el único afectado tras esta práctica es el usuario que adquirió el producto.</p>
+<p>El caso que nos atañe el día de hoy es el Haylou Solar LS05, un Smartwatch económico con un diseño circular francamente elegante, con una razonable cantidad de características útiles por su precio, el único aspecto en el que flojea es en la personalización contando únicamente con 5 Watchfaces y sin la capacidad de agregar más, este problema no fue solucionado hasta la llegada del firmware V001947 en el cual se incorpora la posibilidad de agregaruna Watchface extra al dispositivo a gusto del usuario, la sorpresa fue que algunas versiones del Solar LS05 nunca recibieron esta actualización de firmware, por lo que el día de hoy y como se indica en el titulo te enseñare a actualizar el firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection.</p>
+<p><strong>Requisitos previos:</strong></p>
+<ul>
+<li>Haylou Fit instalado en tu Smartphone</li>
+<li>Tener tu Smartwatch vinculado a Haylou Fit</li>
+</ul>
+<h1 id="1-instalar-mitmproxy">1. Instalar Mitmproxy<a href="#1-instalar-mitmproxy" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Lo primero es instalar <a href="https://mitmproxy.org/">Mitmproxy</a> en el PC el cual nos ayudará a interceptar y modificar la petición que realizará Haylou Fit en búsqueda de la actualización de Firmware.</p>
+<p>
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image1.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+      <figcaption class="center"  style="color: white;" >https://mitmproxy.org/</figcaption>
+    
+  </figure>
+
+
+El proceso de instalación carece de alguna complicación, solo es siguiente, siguiente y finalizar.</p>
+<p>Para ejecutar Mitmproxy es necesario abrir una ventana de CMD y ejecutar el comando “mitmweb”, después de esto se debería de abrir una ventana en el navegador con la consola web de Mitmproxy.</p>
+<h1 id="2-conectar-smartphone-al-proxy">2. Conectar Smartphone al Proxy<a href="#2-conectar-smartphone-al-proxy" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Ahora configuraremos el Smartphone con Haylou Fit instalado para que todas sus peticiones pasen a través de Mitmproxy, para eso hacemos lo siguiente:</p>
+<ol>
+<li>Abre la app de Configuración del dispositivo.</li>
+<li>Presiona Internet y redes Y luego Wi-Fi.</li>
+<li>Presiona la red a la que estas conectado (Nota: el Smartphone y la PC deben estar conectados en la mima red).</li>
+<li>En la parte superior, presiona Editar Y luego Opciones avanzadas.</li>
+<li>En &ldquo;Proxy&rdquo;, presiona la flecha hacia abajo Flecha hacia abajo. Elige el tipo de configuración Manual.</li>
+</ol>
+<p>
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image2.jpeg"  alt="Hello Friend"   style="border-radius: 8px; width: 75%; "  />
+    
+  </figure>
+
+
+Deberías de ver un menú parecido a este, en el cual “Nombre de host de proxy” es la dirección IP de la PC que ejecuta Mitmproxy y el “Puerto proxy” por defecto es el 8080.</p>
+<p><strong>Nota:</strong> Todo este proceso puede variar de Smartphone a Smartphone, si es necesario revisa un tutoría de como configurar un proxy para tu modelo en particular.</p>
+<h1 id="3-preparar-mitmproxy-para-la-intercepción">3. Preparar Mitmproxy para la Intercepción<a href="#3-preparar-mitmproxy-para-la-intercepción" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Regresemos a la PC, para ser exactos a la consola web de Mitmproxy, la cual debería verse así:
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image3.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+  </figure>
+
+
+El en recuadro “Intercept” colocamos lo siguiente:</p>
+<pre><code>“~u getBtVersionUpdate” 
+</code></pre>
+<p>
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image4.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+  </figure>
+
+
+Nos desplazamos a la sección Flow.
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image5.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+  </figure>
+
+
+Si la sección esta vacía, no te preocupes, aparecerán las opciones en cuanto empecemos a capturar tráfico.</p>
+<h1 id="4-actualizar-el-firmware">4. Actualizar el Firmware<a href="#4-actualizar-el-firmware" class="hanchor" ariaLabel="Anchor">&#8983;</a> </h1>
+<p>Ahora abrimos Haylou Fit en nuestro dispositivo móvil, nos desplazamos a la sección “Dispositivo” y luego a “Actualización de firmware”.
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image7.png"  alt="Hello Friend"   style="border-radius: 8px; width: 75%; "  />
+    
+  </figure>
+
+
+Si la sección esta vacía, no te preocupes, aparecerán las opciones en cuanto empecemos a capturar tráfico.
+Una vez empiece a buscar la actualización, comenzara a aparecer tráfico en Mitmproxy, la petición a modificar es la resaltada con rojo, también se puede identificar por ser la única que Mitmproxy detuvo.
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image8.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+  </figure>
+
+
+Para modificar la petición es necesario clicar sobre el icono de lápiz.</p>
+<p>El parámetro por modificar es el llamado “btname”, el cual será modificado de “RH192I” a “RH192IA”.<br>
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image9.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+  </figure>
+
+
+Para guardar los cambios, hacer clic sobre el icono de “palomita”.
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image10.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+  </figure>
+
+
+Con el botón “Resume” se enviará la petición modificada. A veces es necesario enviarla 2 veces, si ese es el caso, solo vuelve a pulsar el botón “Resume”.
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image11.png"  alt="Hello Friend"   style="border-radius: 8px;"  />
+    
+  </figure>
+
+
+<strong>Nota:</strong> El proceso desde que se intercepta la petición hasta que se modifica y envía debe ser hecho con rapidez, de lo contrario será necesario repetirlo, recuerda que el servidor no estará esperando esa petición eternamente.</p>
+<p>Y listo, aparecerá esa pantalla en Haylou Fit, solo queda pulsar el botón “Haga clic en actualizar” y mantener el Smartwatch cerca del Smartphone.
+
+  <figure class="center" >
+    <img src="/HaylouSolarLS05/image12.png"  alt="Hello Friend"   style="border-radius: 8px; width: 75%;"  />
+    
+  </figure>
+
+
+Ahora bien, este artículo habla de cómo actualizar el Haylou Solar LS05 para tener disponible la opción de cambiar las Watchfaces, si quieres un tutorial de como cambiar dichas Watchfaces en profundidad, te recomiendo <a href="https://www.youtube.com/watch?v=sAlA8Y7jyuQ">este</a>  no es mío, pero te servirá.</p>
+<p>Por último, te dejo esta <a href="http://www.watchfacebook.com/download-category/haylou-solar-ls05/">página</a>  en donde poder descargar algunas Watchfaces.</p>
+
+      </div></div>
+
+  
+  
+  
+
+  
+
+</div>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright copyright--user">
+        <span>M4rgon</span>
+    
+        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+<script src="https://m4rgon.github.io/assets/main.js"></script>
+<script src="https://m4rgon.github.io/assets/prism.js"></script>
+
+
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

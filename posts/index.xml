@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on M4rgon</title>
+    <link>https://m4rgon.github.io/posts/</link>
+    <description>Recent content in Posts on M4rgon</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>M4rgon</copyright>
+    <lastBuildDate>Sun, 19 Sep 2021 21:44:24 -0400</lastBuildDate><atom:link href="https://m4rgon.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Como actualizar el Firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection</title>
+      <link>https://m4rgon.github.io/posts/haylousolarls05/</link>
+      <pubDate>Sun, 19 Sep 2021 21:44:24 -0400</pubDate>
+      
+      <guid>https://m4rgon.github.io/posts/haylousolarls05/</guid>
+      <description>Nota: Para llevar a cabo lo visto en este artículo es necesario tener un conocimiento medio avanzado sobre informática.
+No es un secreto que algunos fabricantes de tecnología alrededor del mundo limitan mediante software las capacidades que tiene el hardware, muchos son los motivos detrás de esta práctica, algunos más “nobles” que otros, algunas veces solo buscando un beneficio económico obligando a sus consumidores a comprar la nueva versión de “x” producto para poder satisfacer sus necesidades, lo cierto es que el único afectado tras esta práctica es el usuario que adquirió el producto.</description>
+      <content>&lt;p&gt;&lt;strong&gt;Nota:&lt;/strong&gt; Para llevar a cabo lo visto en este artículo es necesario tener un conocimiento medio avanzado sobre informática.&lt;/p&gt;
+&lt;p&gt;No es un secreto que algunos fabricantes de tecnología alrededor del mundo limitan mediante software las capacidades que tiene el hardware, muchos son los motivos detrás de esta práctica, algunos más “nobles” que otros, algunas veces solo buscando un beneficio económico obligando a sus consumidores a comprar la nueva versión de “x” producto para poder satisfacer sus necesidades, lo cierto es que el único afectado tras esta práctica es el usuario que adquirió el producto.&lt;/p&gt;
+&lt;p&gt;El caso que nos atañe el día de hoy es el Haylou Solar LS05, un Smartwatch económico con un diseño circular francamente elegante, con una razonable cantidad de características útiles por su precio, el único aspecto en el que flojea es en la personalización contando únicamente con 5 Watchfaces y sin la capacidad de agregar más, este problema no fue solucionado hasta la llegada del firmware V001947 en el cual se incorpora la posibilidad de agregaruna Watchface extra al dispositivo a gusto del usuario, la sorpresa fue que algunas versiones del Solar LS05 nunca recibieron esta actualización de firmware, por lo que el día de hoy y como se indica en el titulo te enseñare a actualizar el firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Requisitos previos:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Haylou Fit instalado en tu Smartphone&lt;/li&gt;
+&lt;li&gt;Tener tu Smartwatch vinculado a Haylou Fit&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;1-instalar-mitmproxy&#34;&gt;1. Instalar Mitmproxy&lt;/h1&gt;
+&lt;p&gt;Lo primero es instalar &lt;a href=&#34;https://mitmproxy.org/&#34;&gt;Mitmproxy&lt;/a&gt; en el PC el cual nos ayudará a interceptar y modificar la petición que realizará Haylou Fit en búsqueda de la actualización de Firmware.&lt;/p&gt;
+&lt;p&gt;
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image1.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+      &lt;figcaption class=&#34;center&#34;  style=&#34;color: white;&#34; &gt;https://mitmproxy.org/&lt;/figcaption&gt;
+    
+  &lt;/figure&gt;
+
+
+El proceso de instalación carece de alguna complicación, solo es siguiente, siguiente y finalizar.&lt;/p&gt;
+&lt;p&gt;Para ejecutar Mitmproxy es necesario abrir una ventana de CMD y ejecutar el comando “mitmweb”, después de esto se debería de abrir una ventana en el navegador con la consola web de Mitmproxy.&lt;/p&gt;
+&lt;h1 id=&#34;2-conectar-smartphone-al-proxy&#34;&gt;2. Conectar Smartphone al Proxy&lt;/h1&gt;
+&lt;p&gt;Ahora configuraremos el Smartphone con Haylou Fit instalado para que todas sus peticiones pasen a través de Mitmproxy, para eso hacemos lo siguiente:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Abre la app de Configuración del dispositivo.&lt;/li&gt;
+&lt;li&gt;Presiona Internet y redes Y luego Wi-Fi.&lt;/li&gt;
+&lt;li&gt;Presiona la red a la que estas conectado (Nota: el Smartphone y la PC deben estar conectados en la mima red).&lt;/li&gt;
+&lt;li&gt;En la parte superior, presiona Editar Y luego Opciones avanzadas.&lt;/li&gt;
+&lt;li&gt;En &amp;ldquo;Proxy&amp;rdquo;, presiona la flecha hacia abajo Flecha hacia abajo. Elige el tipo de configuración Manual.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image2.jpeg&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px; width: 75%; &#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Deberías de ver un menú parecido a este, en el cual “Nombre de host de proxy” es la dirección IP de la PC que ejecuta Mitmproxy y el “Puerto proxy” por defecto es el 8080.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Nota:&lt;/strong&gt; Todo este proceso puede variar de Smartphone a Smartphone, si es necesario revisa un tutoría de como configurar un proxy para tu modelo en particular.&lt;/p&gt;
+&lt;h1 id=&#34;3-preparar-mitmproxy-para-la-intercepción&#34;&gt;3. Preparar Mitmproxy para la Intercepción&lt;/h1&gt;
+&lt;p&gt;Regresemos a la PC, para ser exactos a la consola web de Mitmproxy, la cual debería verse así:
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image3.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+El en recuadro “Intercept” colocamos lo siguiente:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;“~u getBtVersionUpdate” 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image4.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Nos desplazamos a la sección Flow.
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image5.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Si la sección esta vacía, no te preocupes, aparecerán las opciones en cuanto empecemos a capturar tráfico.&lt;/p&gt;
+&lt;h1 id=&#34;4-actualizar-el-firmware&#34;&gt;4. Actualizar el Firmware&lt;/h1&gt;
+&lt;p&gt;Ahora abrimos Haylou Fit en nuestro dispositivo móvil, nos desplazamos a la sección “Dispositivo” y luego a “Actualización de firmware”.
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image7.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px; width: 75%; &#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Si la sección esta vacía, no te preocupes, aparecerán las opciones en cuanto empecemos a capturar tráfico.
+Una vez empiece a buscar la actualización, comenzara a aparecer tráfico en Mitmproxy, la petición a modificar es la resaltada con rojo, también se puede identificar por ser la única que Mitmproxy detuvo.
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image8.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Para modificar la petición es necesario clicar sobre el icono de lápiz.&lt;/p&gt;
+&lt;p&gt;El parámetro por modificar es el llamado “btname”, el cual será modificado de “RH192I” a “RH192IA”.&lt;br&gt;
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image9.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Para guardar los cambios, hacer clic sobre el icono de “palomita”.
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image10.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Con el botón “Resume” se enviará la petición modificada. A veces es necesario enviarla 2 veces, si ese es el caso, solo vuelve a pulsar el botón “Resume”.
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image11.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+&lt;strong&gt;Nota:&lt;/strong&gt; El proceso desde que se intercepta la petición hasta que se modifica y envía debe ser hecho con rapidez, de lo contrario será necesario repetirlo, recuerda que el servidor no estará esperando esa petición eternamente.&lt;/p&gt;
+&lt;p&gt;Y listo, aparecerá esa pantalla en Haylou Fit, solo queda pulsar el botón “Haga clic en actualizar” y mantener el Smartwatch cerca del Smartphone.
+
+  &lt;figure class=&#34;center&#34; &gt;
+    &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image12.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px; width: 75%;&#34;  /&gt;
+    
+  &lt;/figure&gt;
+
+
+Ahora bien, este artículo habla de cómo actualizar el Haylou Solar LS05 para tener disponible la opción de cambiar las Watchfaces, si quieres un tutorial de como cambiar dichas Watchfaces en profundidad, te recomiendo &lt;a href=&#34;https://www.youtube.com/watch?v=sAlA8Y7jyuQ&#34;&gt;este&lt;/a&gt;  no es mío, pero te servirá.&lt;/p&gt;
+&lt;p&gt;Por último, te dejo esta &lt;a href=&#34;http://www.watchfacebook.com/download-category/haylou-solar-ls05/&#34;&gt;página&lt;/a&gt;  en donde poder descargar algunas Watchfaces.&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
