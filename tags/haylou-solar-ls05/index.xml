@@ -18,7 +18,7 @@
 No es un secreto que algunos fabricantes de tecnología alrededor del mundo limitan mediante software las capacidades que tiene el hardware, muchos son los motivos detrás de esta práctica, algunos más “nobles” que otros, algunas veces solo buscando un beneficio económico obligando a sus consumidores a comprar la nueva versión de “x” producto para poder satisfacer sus necesidades, lo cierto es que el único afectado tras esta práctica es el usuario que adquirió el producto.</description>
       <content>&lt;p&gt;&lt;strong&gt;Nota:&lt;/strong&gt; Para llevar a cabo lo visto en este artículo es necesario tener un conocimiento medio avanzado sobre informática.&lt;/p&gt;
 &lt;p&gt;No es un secreto que algunos fabricantes de tecnología alrededor del mundo limitan mediante software las capacidades que tiene el hardware, muchos son los motivos detrás de esta práctica, algunos más “nobles” que otros, algunas veces solo buscando un beneficio económico obligando a sus consumidores a comprar la nueva versión de “x” producto para poder satisfacer sus necesidades, lo cierto es que el único afectado tras esta práctica es el usuario que adquirió el producto.&lt;/p&gt;
-&lt;p&gt;El caso que nos atañe el día de hoy es el Haylou Solar LS05, un Smartwatch económico con un diseño circular francamente elegante, con una razonable cantidad de características útiles por su precio, el único aspecto en el que flojea es en la personalización contando únicamente con 5 Watchfaces y sin la capacidad de agregar más, este problema no fue solucionado hasta la llegada del firmware V001947 en el cual se incorpora la posibilidad de agregaruna Watchface extra al dispositivo a gusto del usuario, la sorpresa fue que algunas versiones del Solar LS05 nunca recibieron esta actualización de firmware, por lo que el día de hoy y como se indica en el titulo te enseñare a actualizar el firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection.&lt;/p&gt;
+&lt;p&gt;El caso que nos atañe el día de hoy es el Haylou Solar LS05, un Smartwatch económico con un diseño circular francamente elegante, con una razonable cantidad de características útiles por su precio, el único aspecto en el que flojea es en la personalización contando únicamente con 5 Watchfaces y sin la capacidad de agregar más, este problema no fue solucionado hasta la llegada del firmware V001947 en el cual se incorpora la posibilidad de agregaruna Watchface extra al dispositivo a gusto del usuario, la sorpresa fue que algunas versiones del Solar LS05 nunca recibieron esta actualización de firmware, por lo que el día de hoy y como se indica en el título te enseñare a actualizar el firmware de tu Haylou Solar LS05 explotando una vulnerabilidad JSON Injection.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Requisitos previos:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Haylou Fit instalado en tu Smartphone&lt;/li&gt;
@@ -37,12 +37,12 @@ No es un secreto que algunos fabricantes de tecnología alrededor del mundo limi
 
 El proceso de instalación carece de alguna complicación, solo es siguiente, siguiente y finalizar.&lt;/p&gt;
 &lt;p&gt;Para ejecutar Mitmproxy es necesario abrir una ventana de CMD y ejecutar el comando “mitmweb”, después de esto se debería de abrir una ventana en el navegador con la consola web de Mitmproxy.&lt;/p&gt;
-&lt;h1 id=&#34;2-conectar-smartphone-al-proxy&#34;&gt;2. Conectar Smartphone al Proxy&lt;/h1&gt;
+&lt;h1 id=&#34;2-conectar-el-smartphone-al-proxy&#34;&gt;2. Conectar el Smartphone al Proxy&lt;/h1&gt;
 &lt;p&gt;Ahora configuraremos el Smartphone con Haylou Fit instalado para que todas sus peticiones pasen a través de Mitmproxy, para eso hacemos lo siguiente:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Abre la app de Configuración del dispositivo.&lt;/li&gt;
 &lt;li&gt;Presiona Internet y redes Y luego Wi-Fi.&lt;/li&gt;
-&lt;li&gt;Presiona la red a la que estas conectado (Nota: el Smartphone y la PC deben estar conectados en la mima red).&lt;/li&gt;
+&lt;li&gt;Presiona la red a la que estas conectado (Nota: el Smartphone y la PC deben estar conectados en la misma red).&lt;/li&gt;
 &lt;li&gt;En la parte superior, presiona Editar Y luego Opciones avanzadas.&lt;/li&gt;
 &lt;li&gt;En &amp;ldquo;Proxy&amp;rdquo;, presiona la flecha hacia abajo Flecha hacia abajo. Elige el tipo de configuración Manual.&lt;/li&gt;
 &lt;/ol&gt;
@@ -82,7 +82,7 @@ Nos desplazamos a la sección Flow.
   &lt;/figure&gt;
 
 
-Si la sección esta vacía, no te preocupes, aparecerán las opciones en cuanto empecemos a capturar tráfico.&lt;/p&gt;
+Si la sección está vacía, no te preocupes, aparecerán las opciones en cuanto empecemos a capturar tráfico.&lt;/p&gt;
 &lt;h1 id=&#34;4-actualizar-el-firmware&#34;&gt;4. Actualizar el Firmware&lt;/h1&gt;
 &lt;p&gt;Ahora abrimos Haylou Fit en nuestro dispositivo móvil, nos desplazamos a la sección “Dispositivo” y luego a “Actualización de firmware”.
 
@@ -92,8 +92,7 @@ Si la sección esta vacía, no te preocupes, aparecerán las opciones en cuanto 
   &lt;/figure&gt;
 
 
-Si la sección esta vacía, no te preocupes, aparecerán las opciones en cuanto empecemos a capturar tráfico.
-Una vez empiece a buscar la actualización, comenzara a aparecer tráfico en Mitmproxy, la petición a modificar es la resaltada con rojo, también se puede identificar por ser la única que Mitmproxy detuvo.
+Una vez Haylou Fit empiece a buscar la actualización, comenzara a aparecer tráfico en Mitmproxy, la petición a modificar es la resaltada con rojo, también se puede identificar por ser la única que Mitmproxy detuvo.
 
   &lt;figure class=&#34;center&#34; &gt;
     &lt;img src=&#34;https://m4rgon.github.io/HaylouSolarLS05/image8.png&#34;  alt=&#34;Hello Friend&#34;   style=&#34;border-radius: 8px;&#34;  /&gt;
